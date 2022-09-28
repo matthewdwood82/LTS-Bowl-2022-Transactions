@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.0.36">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Matt Wood">
+
+<title>LTS Bowl 2022 Transaction Script</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+span.underline{text-decoration: underline;}
+div.column{display: inline-block; vertical-align: top; width: 50%;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+</style>
+
+
+<script src="main_files/libs/clipboard/clipboard.min.js"></script>
+<script src="main_files/libs/quarto-html/quarto.js"></script>
+<script src="main_files/libs/quarto-html/popper.min.js"></script>
+<script src="main_files/libs/quarto-html/tippy.umd.min.js"></script>
+<script src="main_files/libs/quarto-html/anchor.min.js"></script>
+<link href="main_files/libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="main_files/libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="main_files/libs/bootstrap/bootstrap.min.js"></script>
+<link href="main_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="main_files/libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+
+
+</head>
+
+<body class="fullcontent">
+
+<div id="quarto-content" class="page-columns page-rows-contents page-layout-article">
+
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">LTS Bowl 2022 Transaction Script</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    <div>
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-contents">
+             <p>Matt Wood </p>
+          </div>
+  </div>
+    
+    
+  </div>
+  
+
+</header>
+
+<p>This script is meant to pull transaction logs from the five LTS Bowl 2022 leagues and dump them to a Google Sheet maintained by <a href="https://ltsbowl2022.slack.com/team/U03UHGFDQ0J"><span class="citation" data-cites="L2">@L2</span> My Wife Left Me</a>.</p>
+<section id="first-things-first" class="level2">
+<h2 class="anchored" data-anchor-id="first-things-first">First Things First</h2>
+<p>First install some packages, you should only need to do this the first time you run.</p>
+<div class="cell">
+<div class="cell-output cell-output-stdout">
+<pre><code>Installing rlang [1.0.6] ...
+    OK [copied cache]
+Installing purrr [0.3.4] ...
+    OK [copied cache]
+Installing dplyr [1.0.10] ...
+    OK [copied cache]
+Installing stringr [1.4.1] ...
+    OK [copied cache]
+Installing lubridate [1.8.0] ...
+    OK [copied cache]
+Installing googlesheets4 [1.0.1] ...
+    OK [copied cache]
+Installing ffscrapr [1.4.7] ...
+    OK [copied cache]</code></pre>
+</div>
+</div>
+</section>
+<section id="load-packages" class="level2">
+<h2 class="anchored" data-anchor-id="load-packages">Load Packages</h2>
+<p>Make some calls to <code>library()</code> to load the packages you just installed. This is the R equivelant of Python’s <code>import</code>.</p>
+<div class="cell">
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: package 'dplyr' was built under R version 4.2.1</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>
+Attaching package: 'dplyr'</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>The following objects are masked from 'package:stats':
+
+    filter, lag</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>The following objects are masked from 'package:base':
+
+    intersect, setdiff, setequal, union</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: package 'purrr' was built under R version 4.2.1</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: package 'stringr' was built under R version 4.2.1</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: package 'lubridate' was built under R version 4.2.1</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>
+Attaching package: 'lubridate'</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>The following objects are masked from 'package:base':
+
+    date, intersect, setdiff, union</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: package 'googlesheets4' was built under R version 4.2.1</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: package 'ffscrapr' was built under R version 4.2.1</code></pre>
+</div>
+</div>
+</section>
+<section id="authorize-googlesheets4" class="level2">
+<h2 class="anchored" data-anchor-id="authorize-googlesheets4">Authorize <code>googlesheets4</code></h2>
+<p>This line authorizes <code>googlesheets4</code> with your credentials.</p>
+<div class="cell">
+<div class="cell-output cell-output-stderr">
+<pre><code>! Using an auto-discovered, cached token.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>  To suppress this message, modify your code or options to clearly consent to
+  the use of a cached token.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>  See gargle's "Non-interactive auth" vignette for more details:</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>  &lt;https://gargle.r-lib.org/articles/non-interactive-auth.html&gt;</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>ℹ The googlesheets4 package is using a cached token for
+  'matthewdwood82@gmail.com'.</code></pre>
+</div>
+</div>
+</section>
+<section id="connect-to-sleeper" class="level2">
+<h2 class="anchored" data-anchor-id="connect-to-sleeper">Connect to Sleeper</h2>
+<p>We import transaction data first using purrr map to get all a connection for each league and label it by the league name.</p>
+<div class="cell">
+
+</div>
+</section>
+<section id="collect-transactions" class="level2">
+<h2 class="anchored" data-anchor-id="collect-transactions">Collect Transactions</h2>
+<p>Here we get all the transactions using their associated connection objects, bind them up into one dataframe, and do some math so we know the week of the year.</p>
+<div class="cell">
+<div class="cell-output cell-output-stdout">
+<pre><code> [1] "league"          "week"            "timestamp"       "type"           
+ [5] "type_desc"       "franchise_id"    "franchise_name"  "player_id"      
+ [9] "player_name"     "pos"             "team"            "bbid_amount"    
+[13] "trade_partner"   "comment"         "waiver_priority"</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 8 × 2
+  type            type_desc  
+  &lt;chr&gt;           &lt;chr&gt;      
+1 trade           traded_for 
+2 trade           traded_away
+3 free_agent      dropped    
+4 free_agent      added      
+5 waiver_complete added      
+6 waiver_complete dropped    
+7 waiver_failed   added      
+8 waiver_failed   dropped    </code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 10 × 15
+   league  week timestamp           type  type_desc   franchis…¹ franc…² playe…³
+   &lt;chr&gt;  &lt;int&gt; &lt;dttm&gt;              &lt;chr&gt; &lt;chr&gt;       &lt;chr&gt;      &lt;chr&gt;   &lt;chr&gt;  
+ 1 L3         4 2022-09-28 03:44:47 trade traded_for  1          TomESc… 7670   
+ 2 L3         4 2022-09-28 03:44:47 trade traded_for  8          Just K… 6820   
+ 3 L3         4 2022-09-28 03:44:47 trade traded_for  8          Just K… 4950   
+ 4 L3         4 2022-09-28 03:44:47 trade traded_for  1          TomESc… 4018   
+ 5 L3         4 2022-09-28 03:44:47 trade traded_for  8          Just K… 1689   
+ 6 L3         4 2022-09-28 03:44:47 trade traded_away 8          Just K… 7670   
+ 7 L3         4 2022-09-28 03:44:47 trade traded_away 1          TomESc… 6820   
+ 8 L3         4 2022-09-28 03:44:47 trade traded_away 1          TomESc… 4950   
+ 9 L3         4 2022-09-28 03:44:47 trade traded_away 8          Just K… 4018   
+10 L3         4 2022-09-28 03:44:47 trade traded_away 1          TomESc… 1689   
+# … with 7 more variables: player_name &lt;chr&gt;, pos &lt;chr&gt;, team &lt;chr&gt;,
+#   bbid_amount &lt;int&gt;, trade_partner &lt;chr&gt;, comment &lt;chr&gt;,
+#   waiver_priority &lt;int&gt;, and abbreviated variable names ¹​franchise_id,
+#   ²​franchise_name, ³​player_id</code></pre>
+</div>
+</div>
+</section>
+<section id="send-transactions-to-google-sheets" class="level2">
+<h2 class="anchored" data-anchor-id="send-transactions-to-google-sheets">Send Transactions to Google Sheets</h2>
+<p>Here we carve up the date into “free_agent”, “waiver”, and “trade” transactions, then print each to the 2022 LTS Bowl google sheet.</p>
+<div class="cell">
+<div class="cell-output cell-output-stderr">
+<pre><code>✔ Writing to "Lts Results".</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>✔ Writing to sheet 'free agent transactions'.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>✔ Writing to "Lts Results".</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>✔ Writing to sheet 'waiver transactions'.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>✔ Writing to "Lts Results".</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>✔ Writing to sheet 'trades'.</code></pre>
+</div>
+</div>
+</section>
+
+</main>
+<!-- /main column -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    target: function(trigger) {
+      return trigger.previousElementSibling;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    setTimeout(function() {
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      let href = ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const cites = ref.parentNode.getAttribute('data-cites').split(' ');
+    tippyHover(ref, function() {
+      var popup = window.document.createElement('div');
+      cites.forEach(function(cite) {
+        var citeDiv = window.document.createElement('div');
+        citeDiv.classList.add('hanging-indent');
+        citeDiv.classList.add('csl-entry');
+        var biblioDiv = window.document.getElementById('ref-' + cite);
+        if (biblioDiv) {
+          citeDiv.innerHTML = biblioDiv.innerHTML;
+        }
+        popup.appendChild(citeDiv);
+      });
+      return popup.innerHTML;
+    });
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+
+</body></html>
