@@ -1,0 +1,108 @@
+---
+title: "LTS Bowl 2022 Transaction Script"
+author: "Matt Wood"
+format: html
+editor: source
+echo: false
+---
+
+This script is meant to pull transaction logs from the five LTS Bowl 2022 leagues and dump them to a Google Sheet maintained by [@L2 My Wife Left Me](https://ltsbowl2022.slack.com/team/U03UHGFDQ0J). 
+
+## First Things First
+
+First install some packages, you should only need to do this the first time you run.
+
+```{r install_packages}
+renv::install(c("dplyr", "purrr", "stringr", "lubridate", "googlesheets4", "ffscrapr", "rlang"))
+
+```
+
+## Load Packages
+
+Make some calls to `library()` to load the packages you just installed. This is the R equivelant of Python's `import`.
+
+```{r load_packages}
+library(dplyr)
+library(purrr)
+library(stringr)
+library(lubridate)
+library(googlesheets4)
+library(ffscrapr)
+```
+
+## Authorize `googlesheets4`
+
+This line authorizes `googlesheets4` with your credentials.
+
+```{r gs4_auth}
+googlesheets4::gs4_auth()
+```
+
+## Connect to Sleeper
+
+We import transaction data first using purrr map to get all a connection for each league and label it by the league name. 
+
+```{r get_sleeper}
+con <-
+  c(
+    "869072831982559232",
+    "859524057538887680",
+    "869073624508891136",
+    "869073848140800000",
+    "866166165288939520"
+  ) %>%
+  purrr::set_names("L1", "L2", "L3", "L4", "L5") %>%
+  purrr::map(.x = .,
+             ~ ff_connect(
+               league_id = .x,
+               platform = "sleeper",
+               season = 2022
+             ))
+
+```
+
+
+## Collect Transactions
+
+Here we get all the transactions using their associated connection objects, bind them up into one dataframe, and do some math so we know the week of the year.
+
+```{r get_transactions}
+df_all <- purrr::map(con, ~ ff_transactions(.x)) %>%
+  dplyr::bind_rows(.id = "league") %>%
+  arrange(desc(timestamp), league) %>%
+  mutate(
+    week = difftime(timestamp, lubridate::ymd("2022-09-06"), units = "weeks") %>% ceiling(.) %>% as.integer(.) %>% if_else(. < 0L, 0L, .)
+  ) %>%
+  select(league, week, everything())
+
+names(df_all)
+
+distinct(df_all, type, type_desc)
+
+head(df_all, 10)
+
+```
+
+## Send Transactions to Google Sheets
+
+Here we carve up the date into "free_agent", "waiver", and "trade" transactions, then print each to the 2022 LTS Bowl google sheet.
+
+```{r send_data}
+# sheet URL
+url <- "https://docs.google.com/spreadsheets/d/1dbLITRWTaDBRU0wksk9nFJ4DqxV9BTokIQHW5pqDx5Y/edit#gid=83722163"
+
+# drive_find(n_max = 1)
+
+df_all %>%
+ dplyr::filter(stringr::str_detect(type, "free_agent")) %>%
+ googlesheets4::sheet_write(ss = url, sheet = "free agent transactions")
+
+df_all %>% 
+  dplyr::filter(stringr::str_detect(type, "waiver")) %>% 
+  googlesheets4::sheet_write(ss = url, sheet = "waiver transactions")
+
+df_all %>% 
+  dplyr::filter(stringr::str_detect(type, "trade")) %>% 
+  googlesheets4::sheet_write(ss = url, sheet = "trades")
+```
+
