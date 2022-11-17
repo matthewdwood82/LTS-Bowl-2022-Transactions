@@ -1,0 +1,12 @@
+{
+  "type": "service_account",
+  "project_id": "ninth-iris-368901",
+  "private_key_id": "00a36180ce2c569f9a49f972ec1b1ca3814b2568",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvgIBADANBgkqhkiG9w0BAQEFAASCBKgwggSkAgEAAoIBAQDGEzVI95eZ4Txv\nmIy3uKa8Mqjq9hzENix7TBgm1xTe7RkNS3NX7CDt+17Vt9bHokBSGSAL2+oAi5ZK\n/TBAiTjf56gjLM2zMbNs9Eop4YJ7lkxxRhiqZMSqzq0IIRTTp+w2EL3fMK1A23vf\nOPuiOCiciUQ8+FTSORmhEWM4DDfFrEeHN3aG7Z9xuvZ0Lcq2Of+jKOndpLwd2Ed2\nZCdYyqJzcF6U838Vz0aZbro/HlDmwy8iMDr6eVctkS5KbMhl7dDD/t2QDNwxMJHb\n0qCCzOsFSs4tzYriym7ycgHunD6VLXejkbD0Zrw37Rzrcaj9A83pMBTfE9hPhCTa\nHLhyiOQnAgMBAAECggEAAPyegtcM78zR9sJdTRsD5aMg+U6xlP6qGREne6YNqhCn\nU8wg7nq0LUtXzRvF26fAx0ftw3FciJUpcgUx5NhqKp9mVIqIGdDxEmVjKzM+6au1\nhMjzHYI0Ap/V99jmWCmZgSlzMLX23wBY7SNFCala9nCuoNkh3ww+xvElu+U/r+Hq\nFFiO6uDb8dmEctqqlnTbSDE3vTDismhEAIfqJKW73JFdqdZWL/HflBekfv6fSOKP\nZusxR1oyDBxDIMtZWiSomm3Aht+URVnsh6Uw2D4xAZJvvMp/B3O7ojB7znWcnSJx\n27xtNqTcfJvEuZWvMhKO64YDs3cYZc4ecZzdULa1IQKBgQD/c7uvQjtrmkM5lIip\n79LmOLrNGUcsIBHJ/w/X1FX1G8tjt4c7kQP+aP8ho/A2ciQWd+SfuLYFXTsyvx8n\nqLherbiCDvcHcCS7uiizDKaD2XT9pbaja2GhE+WM82O02JhqrSh5QhnUl25MOYL4\nhw1AnTBPl9iu1JoIJ8hhG0vV4QKBgQDGf/g9UjNSQb1JUtBMMd1OscfxUpPAX9Bc\nsc7hstADvva7+tNZpOS/ANN/BCc4PqRcHLIqUK46cZzBFhon/3RezwmgZ4UOcCJG\nl35rW3aTQ8thA8o0vPyI7ofBeSD1WobxYNJSsRDSFrC8CEBnu4vsf2hEtMTf2vNT\nZmy0MTFrBwKBgHycFwTCGTw/DuXqp9PFsiotqCneV9KVfjf73N2araeYPFnTL/uF\nnN4gl7vwPYBBo4r2RycGsnvhY7w4cNkmu3Er6uI+rJALS0/r2milFiEhFamZiYMk\nIYayrvpXy95u/cKj3ydvcCw9BkfWkiXrszI+u09IMiHugYjS5zM/XnnhAoGBAMEp\nwMjzl+ug+3FB/F9ZWvH8gQRuhkd7NckuYpMxrcknaPVOxaMDmnHgfO+qe/v4wXq9\nlgclkhZfftpLBtMLfRPRx51nf4yoREKLo8MXM1FldKGIzZn6mokqDcOReygnmw+D\nV8iOdD7tQ7kHEp2fXS+cYDwT6U2pxIXRM1E6Wcu7AoGBAOCwbJOUCpooaKRaXw9z\nfI8yc7qPOPbJDyoFGy3z7IRd6PqZc1Mw9dJKzMXuCvR5e9/P1s+ERGqz1fEhO4Ig\nFpwloj1ybr8X8ZUkEpQNs+ndSyDE5tHXEc/CU66gxGHht87fUONhimgMKrA2njCF\nCbUKZkFDw4QqmwChXIjJdAFZ\n-----END PRIVATE KEY-----\n",
+  "client_email": "lts-bowl-2022-transactions@ninth-iris-368901.iam.gserviceaccount.com",
+  "client_id": "117092930354300662763",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/lts-bowl-2022-transactions%40ninth-iris-368901.iam.gserviceaccount.com"
+}

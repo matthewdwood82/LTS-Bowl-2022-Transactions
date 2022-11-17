@@ -13,15 +13,20 @@ This script is meant to pull transaction logs from the five LTS Bowl 2022 league
 First install some packages, you should only need to do this the first time you run.
 
 ```{r install_packages}
-renv::install(c("dplyr", "purrr", "stringr", "lubridate", "googlesheets4", "ffscrapr", "rlang"))
+# renv::install(c("dplyr", "purrr", "stringr", "lubridate", "googlesheets4", "ffscrapr", "rlang", "rmarkdown", "httpuv", "usethis"))
 
 ```
 
-## Load Packages
+## Activate & Load Packages
 
-Make some calls to `library()` to load the packages you just installed. This is the R equivelant of Python's `import`.
+Tell R where the package installs are located (using `renv::activate`) and make some calls to `library()` to load the packages you just installed. This is the R equivelant of Python's `import`.
 
 ```{r load_packages}
+rm(list = ls())
+gc()
+
+renv::activate()
+
 library(dplyr)
 library(purrr)
 library(stringr)
@@ -35,7 +40,21 @@ library(ffscrapr)
 This line authorizes `googlesheets4` with your credentials.
 
 ```{r gs4_auth}
-googlesheets4::gs4_auth()
+# # If interactive auth is ok
+# googlesheets4::gs4_auth()
+
+# # If you want to cache auth locally in a .secrets dir for non-interactive, from https://josiahparry.medium.com/googlesheets4-authentication-for-deployment-9e994b4c81d6
+# options(gargle_oauth_cache = ".secrets")
+# gargle::gargle_oauth_cache()
+# googlesheets4::gs4_auth()
+# googlesheets4::gs4_deauth()
+
+# if cached local auth, from https://josiahparry.medium.com/googlesheets4-authentication-for-deployment-9e994b4c81d6
+googlesheets4::gs4_auth(email = "matthewdwood82@gmail.com", cache = ".secrets")
+
+# # if cached and stored in a GITHUB env for GITHUB action deploy, replace "GS4_PASSWORD" with whatever you named that secret environmental variable in your repo
+# googlesheets4::gs4_auth(email = "matthewdwood82@gmail.com", cache = GS4_PASSWORD)
+
 ```
 
 ## Connect to Sleeper
