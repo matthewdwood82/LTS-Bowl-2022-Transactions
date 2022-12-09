@@ -13,6 +13,9 @@ This script is meant to pull transaction logs from the five LTS Bowl 2022 league
 First install some packages, you should only need to do this the first time you run.
 
 ```{r install_packages}
+#| warning: false
+
+
 # renv::install(c("dplyr", "purrr", "stringr", "lubridate", "googlesheets4", "ffscrapr", "rlang", "rmarkdown", "httpuv", "usethis"))
 
 ```
@@ -94,11 +97,11 @@ df_all <- purrr::map(con, ~ ff_transactions(.x)) %>%
   ) %>%
   select(league, week, everything())
 
-names(df_all)
-
-distinct(df_all, type, type_desc)
-
-head(df_all, 10)
+# names(df_all)
+# 
+# distinct(df_all, type, type_desc)
+# 
+# head(df_all, 10)
 
 ```
 
