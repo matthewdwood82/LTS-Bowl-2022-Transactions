@@ -18,7 +18,7 @@ library(ffscrapr)
 
 # gs4 auth ----------------------------------------------------------------
 
-googlesheets4::gs4_auth(token = Sys.getenv(GS_PAT))
+googlesheets4::gs4_auth(path = Sys.getenv("GOOGLE_AUTHENTICATION_CREDENTIALS"))
 
 
 
