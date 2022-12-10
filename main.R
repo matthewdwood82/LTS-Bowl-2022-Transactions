@@ -18,8 +18,7 @@ library(ffscrapr)
 
 # gs4 auth ----------------------------------------------------------------
 
-googlesheets4::gs4_auth(email = "matthewdwood82@gmail.com",
-                        cache = Sys.getenv("GS_PAT"))
+googlesheets4::gs4_auth(path = Sys.getenv("GS_PAT"))
 
 
 
