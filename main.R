@@ -21,9 +21,7 @@ library(ffscrapr)
 
 # googledrive::drive_auth(path = Sys.getenv("GOOGLE_AUTHENTICATION_CREDENTIALS"))
 
-googlesheets4::gs4_auth(email = "matthewdwood82@gmail.com", cache = Sys.getenv("GOOGLE_AUTHENTICATION_CREDENTIALS"))
-
-
+googledrive::drive_auth(email = "matthewdwood82@gmail.com", cache = Sys.getenv("GOOGLE_AUTHENTICATION_CREDENTIALS"))
 
 
 # connect to Sleeper ------------------------------------------------------
