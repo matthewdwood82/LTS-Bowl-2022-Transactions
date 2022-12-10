@@ -72,3 +72,7 @@ df_all %>%
 df_all %>% 
   dplyr::filter(stringr::str_detect(type, "trade")) %>% 
   googlesheets4::sheet_write(ss = url, sheet = "trades")
+
+googlesheets4::sheet_write(Sys.time(), ss = url, sheet = "transactions_last_updated")
+
+

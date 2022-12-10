@@ -27,6 +27,5 @@ jobs:
           extra-packages: ffscrapr
       - uses: r-lib/actions/check-r-package@v2
       - name: Run transaction log updates
-        run: |
-          source("main.R")
+        run: source("main.R")
         shell: Rscript
