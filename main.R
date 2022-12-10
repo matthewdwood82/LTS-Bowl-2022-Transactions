@@ -11,6 +11,7 @@ library(dplyr)
 library(purrr)
 library(stringr)
 library(lubridate)
+library(googledrive)
 library(googlesheets4)
 library(ffscrapr)
 
@@ -18,7 +19,10 @@ library(ffscrapr)
 
 # gs4 auth ----------------------------------------------------------------
 
-googlesheets4::gs4_auth(path = Sys.getenv("GOOGLE_AUTHENTICATION_CREDENTIALS"))
+# googledrive::drive_auth(path = Sys.getenv("GOOGLE_AUTHENTICATION_CREDENTIALS"))
+
+googlesheets4::gs4_auth(email = "matthewdwood82@gmail.com", cache = Sys.getenv("GOOGLE_AUTHENTICATION_CREDENTIALS"))
+
 
 
 

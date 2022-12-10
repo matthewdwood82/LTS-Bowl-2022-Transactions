@@ -27,3 +27,4 @@ vignettes/*.pdf
 # R Environment Variables
 .Renviron
 /.secrets
+GOOGLE_AUTHENTICATION_CREDENTIALS
