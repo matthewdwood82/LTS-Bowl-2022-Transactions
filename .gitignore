@@ -26,5 +26,5 @@ vignettes/*.pdf
 *.knit.md
 # R Environment Variables
 .Renviron
-/.secrets/*
+.secrets/
 GOOGLE_AUTHENTICATION_CREDENTIALS
