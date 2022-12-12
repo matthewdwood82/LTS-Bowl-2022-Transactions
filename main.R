@@ -5,7 +5,7 @@
 rm(list = ls())
 gc()
 
-renv::activate()
+# renv::activate()
 
 library(dplyr)
 library(purrr)
