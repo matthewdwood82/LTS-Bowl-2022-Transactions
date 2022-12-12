@@ -19,7 +19,7 @@ library(ffscrapr)
 
 # gs4 auth ----------------------------------------------------------------
 # point to json secret per https://gargle.r-lib.org/articles/non-interactive-auth.html#provide-a-service-account-token-directly
-googledrive::drive_auth(email = "matthewdwood82@gmail.com", path = Sys.getenv("GOOGLE_AUTHENTICATION_CREDENTIALS"))
+googledrive::drive_auth(email = "matthewdwood82@gmail.com", path = "google_auth_secret.json")
 
 # tell gs4 that the googledrive token works fine per 
 # https://googlesheets4.tidyverse.org/articles/drive-and-sheets.html#auth-with-googledrive-first-then-googlesheets4
