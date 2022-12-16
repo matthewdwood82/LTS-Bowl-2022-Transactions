@@ -18,9 +18,10 @@ library(ffscrapr)
 
 
 # gs4 auth ----------------------------------------------------------------
+googledrive::drive_deauth()
 # point to json secret per https://gargle.r-lib.org/articles/non-interactive-auth.html#provide-a-service-account-token-directly
-googledrive::drive_auth(path = Sys.getenv("google_auth_secret.json"))
-# googledrive::drive_auth(path = Sys.getenv("GOOGLE_AUTHENTICATION_CREDENTIALS"))
+# googledrive::drive_auth(path = Sys.getenv("google_auth_secret.json"))
+googledrive::drive_auth(path = Sys.getenv("GOOGLE_AUTHENTICATION_CREDENTIALS"))
 # googledrive::drive_auth(path = list.files(path = ".secrets", pattern = "json", recursive = TRUE, full.names = TRUE))
 
 
