@@ -19,7 +19,9 @@ library(ffscrapr)
 
 # gs4 auth ----------------------------------------------------------------
 # point to json secret per https://gargle.r-lib.org/articles/non-interactive-auth.html#provide-a-service-account-token-directly
-googledrive::drive_auth(email = "matthewdwood82@gmail.com", path = "google_auth_secret.json")
+googledrive::drive_auth(email = "matthewdwood82@gmail.com", path = GOOGLE_AUTHENTICATION_CREDENTIALS)
+# googledrive::drive_auth(path = list.files(path = ".secrets", pattern = "json", recursive = TRUE, full.names = TRUE))
+
 
 # tell gs4 that the googledrive token works fine per 
 # https://googlesheets4.tidyverse.org/articles/drive-and-sheets.html#auth-with-googledrive-first-then-googlesheets4
@@ -75,6 +77,6 @@ df_all %>%
   dplyr::filter(stringr::str_detect(type, "trade")) %>% 
   googlesheets4::sheet_write(ss = url, sheet = "trades")
 
-googlesheets4::sheet_write(Sys.time(), ss = url, sheet = "transactions_last_updated")
+googlesheets4::sheet_write(data.frame(transactions_last_updated = Sys.time()), ss = url, sheet = "transactions_last_updated")
 
 
