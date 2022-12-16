@@ -28,6 +28,10 @@ jobs:
         run: |
           if (!requireNamespace("renv", quietly = TRUE)) install.packages("renv")
           renv::restore()
+      - name: print env vars
+        run: |
+          printenv
+          echo $GOOGLE_AUTHENTICATION_CREDENTIALS
 # write json to pass to googledrive auth per Tan's suggestion at
 # https://rfordatascience.slack.com/archives/CA349P7EC/p1670728526093819?thread_ts=1668621102.311919&cid=CA349P7EC
       - name: write json secret
