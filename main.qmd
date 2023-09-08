@@ -103,6 +103,9 @@ df_all <- purrr::map(con, ~ ff_transactions(.x)) %>%
 # 
 # head(df_all, 10)
 
+df_scores <- purrr::map(con, ~ ff_schedule(.x)) %>% 
+  dplyr::bind_rows(.id = "league")
+
 ```
 
 ## Send Transactions to Google Sheets

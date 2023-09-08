@@ -5,8 +5,8 @@ on:
     branches: [main, master]
   pull_request:
     branches: [main, master]
-  schedule:
-    - cron: '5 4 * 9-12,1 *'
+  # schedule:
+    # - cron: '5 4 * 9-12,1 *'
 
 name: get-transactions
 
